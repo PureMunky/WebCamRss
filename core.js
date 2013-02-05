@@ -1,6 +1,7 @@
 var http = require('http'),
 	fs = require('fs'),
-	securityCamPath = 'C:\\Storage\\SecurityCam\\';
+	securityCamPath = 'C:\\Storage\\SecurityCam\\',
+	logFile = 'log.txt';
 
 http.createServer(function (request, response) {
  	response.writeHead(200, {'Content-Type': 'text/plain'});
@@ -17,7 +18,20 @@ http.createServer(function (request, response) {
 		response.end('End of List\n');
 	});
 	
-	console.log('Server Accessed');
+	writeServerLog(request);
 }).listen(8124);
 
-console.log('Server started')
+
+var writeServerLog = function (request) {
+	var logMsg,
+		now = new Date();
+		
+	logMsg = now + ' - ' + request.method + ' ' + request.url + ' from ' + request.headers['host'];
+	
+	fs.appendFile(logFile, logMsg + '\n'), function (err) {
+		if (err) throw err;
+		console.log(logMsg);
+	};
+};
+
+console.log('Server started');
