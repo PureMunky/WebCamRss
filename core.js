@@ -26,7 +26,7 @@ var writeServerLog = function (request) {
 	var logMsg,
 		now = new Date();
 		
-	logMsg = now + ' - ' + request.method + ' ' + request.url + ' from ' + request.headers['host'];
+	logMsg = now + ' - ' + request.method + ' - ' + request.url + ' from ' + request.headers['host'];
 	
 	fs.appendFile(logFile, logMsg + '\n'), function (err) {
 		if (err) throw err;
